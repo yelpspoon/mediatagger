@@ -50,4 +50,5 @@ RUN echo -n "cat /etc/motd" >> /root/.bashrc
 
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["/usr/bin/ttyd", "-W", "bash"]
+#CMD ["/usr/bin/ttyd", "-W", "bash"]
+CMD ["/usr/bin/ttyd", "-W", "-i", "0.0.0.0", "-p", "7681", "bash"]

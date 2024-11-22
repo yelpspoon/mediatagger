@@ -25,9 +25,10 @@ WORKDIR /media/music
 # Install dependencies and ttyd
 COPY requirements.txt .
 RUN apt update && apt install -y git curl && rm -rf /var/lib/apt/lists/* && \
-    curl -L -o /usr/bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.aarch64 && \
+    curl -L -o /usr/bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.i686 && \
     chmod +x /usr/bin/ttyd
 
+#   curl -L -o /usr/bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.aarch64 && \
 RUN apt update && apt install -y --no-install-recommends tini && rm -rf /var/lib/apt/lists/*
 
 # Expose ports for Streamlit and ttyd

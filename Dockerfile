@@ -31,7 +31,8 @@ RUN apt update && apt install -y git curl && rm -rf /var/lib/apt/lists/* && \
 RUN apt update && apt install -y --no-install-recommends tini && rm -rf /var/lib/apt/lists/*
 
 # Expose ports for Streamlit and ttyd
-EXPOSE 8501 7681
+#EXPOSE 8501 7681
+EXPOSE 7681
 
 # Create instructions as MOTD
 RUN cat <<EOF > /etc/motd
@@ -51,4 +52,5 @@ RUN echo -n "cat /etc/motd" >> /root/.bashrc
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 #CMD ["/usr/bin/ttyd", "-W", "bash"]
-CMD ["/usr/bin/ttyd", "-W", "-i", "0.0.0.0", "-p", "7681", "bash"]
+#CMD ["/usr/bin/ttyd", "-W", "-i", "0.0.0.0", "-p", "7681", "bash"]
+CMD ["/usr/bin/ttyd", "-W", "-p", "7681", "bash"]

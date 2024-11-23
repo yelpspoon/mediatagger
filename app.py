@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import logging
 from pathlib import Path
 from mutagen.mp3 import MP3
@@ -207,4 +209,29 @@ def scan_directory(directory_path, config):
                 missing_fields = [field for field in required_fields if metadata.get(field) in (None, 'Unknown Title', 'Unknown Artist', 'Unknown Album', 'Unknown Year')]
 
                 if not missing_fields:
-                    logging
+                    logging.info(f"Skipping {file_path}, all metadata fields are present.")
+                    continue  # Skip to the next file if all metadata fields are present
+
+                logging.info(f"Missing fields for {file_path}: {missing_fields}")
+
+                # Fetch additional metadata if required
+                acoustid_metadata = get_metadata_from_acoustid(file_path, config)
+                if acoustid_metadata:
+                    metadata.update(acoustid_metadata)
+
+            if metadata:
+                write_metadata(file_path, metadata)
+
+# Main execution
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Audio file metadata updater')
+    parser.add_argument('--debug', action='store_true', help="Enable debug logging")
+    args = parser.parse_args()
+
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+
+    config = load_config()
+    init_musicbrainz(config)
+
+    scan_directory(config['scan_directory'], config)

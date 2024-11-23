@@ -45,7 +45,7 @@ You should be in music/
 To scan oll audio media files and apply tags to missing metadata,
 feel free to navigate to MAIN and run:
 
-update_metadata.py
+./update_metadata.py
 
 EOF
 RUN echo -n "cat /etc/motd" >> /root/.bashrc

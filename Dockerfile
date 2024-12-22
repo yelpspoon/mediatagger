@@ -4,6 +4,9 @@ FROM python:3.10-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libchromaprint-dev \
     ffmpeg \
+    vorbisgain \
+    flac \
+    mp3gain \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements.txt into the container
@@ -15,7 +18,9 @@ RUN pip install -r requirements.txt --no-cache-dir
 # Copy the Python script(s) into the container and make the py executable
 COPY config.json /usr/bin/
 COPY app.py /usr/bin/update_metadata.py
+COPY replaygain.sh /usr/bin/replaygain.sh
 RUN chmod +x /usr/bin/update_metadata.py
+RUN chmod +x /usr/bin/replaygain.sh
 
 
 # Set working directory Change this to /media/music coordinate with config.json
